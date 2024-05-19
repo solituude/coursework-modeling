@@ -1,7 +1,10 @@
 .content{
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 30px;
+  background: #e0eaec;
+  padding: 10px;
+  margin-left: 10px;
 }
 
 .box {
@@ -12,4 +15,9 @@
 .box__item{
   display: flex;
   flex-direction: row;
+}
+
+button {
+  width: 100%;
+  margin: 4px;
 }
