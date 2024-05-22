@@ -1,14 +1,21 @@
 .container {
-  height: 457px;
+  height: 600px!important;
   flex-direction: row;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
   display: flex;
+  background: #f2f2f6;
+  //margin-bottom: -50px;
+  overflow: scroll !important;
 
 }
 
 .img {
   //margin-top: -50px;
-  position: fixed;
+  position: relative;
   height: 500px;
+  //overflow: scroll;
 }
 
 .q{
@@ -17,7 +24,7 @@
   flex-direction: column;
   width: 80px;
   top: 35px;
-  left: 70px;
+  left: -480px;
   align-items: flex-end;
 }
 
@@ -27,7 +34,7 @@
   position: relative;
   width: 50px;
   top: 10px;
-  left: 110px;
+  left: -430px;
   align-items: flex-end;
 }
 
@@ -37,7 +44,7 @@
   position: relative;
   width: 50px;
   top: 30px;
-  left: 160px;
+  left: -370px;
   align-items: flex-end;
 }
 
@@ -47,7 +54,7 @@
   position: relative;
   width: 50px;
   top: 300px;
-  left: 200px;
+  left: -350px;
   align-items: flex-end;
 }
 
@@ -57,7 +64,7 @@
   position: relative;
   width: 50px;
   top: 320px;
-  right: 30px;
+  left: -560px;
   align-items: flex-end;
 }
 
@@ -66,7 +73,7 @@
   flex-direction: column;
   position: relative;
   width: 50px;
-  top: 300px;
-  right: 300px;
+  top: 320px;
+  left: -840px;
   align-items: flex-end;
 }

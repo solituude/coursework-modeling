@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  height: 100%;
   background: #e0eaec;
   padding: 10px;
-  margin-left: 10px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .box {

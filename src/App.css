@@ -48,7 +48,7 @@ td{
 }
 
 *{
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .col {
@@ -56,8 +56,15 @@ td{
   flex-direction: column;
 }
 
+.row{
+  display: flex;
+  /*margin: 0 20px;*/
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 body {
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 table {

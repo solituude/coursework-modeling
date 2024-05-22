@@ -11,10 +11,13 @@ function App() {
         <div className={"app"}>
             <Microprogramm/>
             <div className={"col"}>
-                <DischargeGrid/>
+
+                <div className="row">
+                    <DischargeGrid/>
+                    <ProgramControls/>
+                </div>
                 <UA_OA/>
             </div>
-            <ProgramControls/>
         </div>
     );
 }

@@ -1,25 +1,18 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {observer} from "mobx-react";
 import store from "../../store/store";
-import UA_OA from "../UA_OA/UA_OA";
 import s from './dischargegrid.module.scss';
 
 const DischargeGrid: React.FC = (observer(() => {
-    // useEffect(() => {
-    //     store.decimalToBinaryUI(store.UI_A, store.binA);
-    //     store.decimalToBinaryUI(store.UI_B, store.binB);
-    // }, []);
-
-
     return (
-        <div>
-            <div>
+        <div className={s.content}>
+            <div className={s.initial}>
                 <span><b>Исходные данные</b></span>
 
                 <div className={s.d1}>
-                    Делимое
+                    Делимое A
                     <div className={s.container}>
-                        <span style={{fontSize: "22px"}}>A <b style={{fontSize: "24px"}}>. </b></span>
+                        <span style={{fontSize: "22px"}}><b style={{fontSize: "24px"}}>. </b></span>
                         <table>
                             <thead>
                             <tr>
@@ -54,14 +47,14 @@ const DischargeGrid: React.FC = (observer(() => {
                                 }
                             </tr>
                         </table>
-                        <div>A<sub>10</sub> = <input value={store.UI_A}/></div>
                     </div>
+                    <div>A<sub>10</sub> = <input value={store.UI_A}/></div>
                 </div>
 
                 <div className={s.d2}>
-                    Делитель
+                    Делитель B
                     <div className={s.container}>
-                        <span style={{fontSize: "22px"}}>B <b style={{fontSize: "24px"}}>. </b></span>
+                        <span style={{fontSize: "22px"}}><b style={{fontSize: "24px"}}>. </b></span>
                         <table>
                             <thead>
                             <tr>
@@ -96,20 +89,18 @@ const DischargeGrid: React.FC = (observer(() => {
                                 }
                             </tr>
                         </table>
-                        <div>B<sub>10</sub> = <input value={store.UI_B}/></div>
                     </div>
+                    <div>B<sub>10</sub> = <input value={store.UI_B}/></div>
                 </div>
-
-
             </div>
 
 
-            <div>
+            <div className={s.box}>
                 <b>Ход вычисления</b>
                 <div className={s.d1}>
-                    Регистр делимого
+                    Регистр делимого A
                     <div className={s.container}>
-                        <span style={{fontSize: "22px"}}>A <b style={{fontSize: "24px"}}>. </b></span>
+                        <span style={{fontSize: "22px"}}><b style={{fontSize: "24px"}}>. </b></span>
                         <table>
                             <thead>
                             <tr>
@@ -142,9 +133,9 @@ const DischargeGrid: React.FC = (observer(() => {
                     </div>
                 </div>
                 <div className={s.d2}>
-                    Регистр делителя
+                    Регистр делителя B
                     <div className={s.container}>
-                        <span style={{fontSize: "22px"}}>B <b style={{fontSize: "24px"}}>. </b></span>
+                        <span style={{fontSize: "22px"}}><b style={{fontSize: "24px"}}>. </b></span>
                         <table>
                             <thead>
                             <tr>
@@ -179,9 +170,9 @@ const DischargeGrid: React.FC = (observer(() => {
                 </div>
 
                 <div className={s.d3}>
-                    Регистр частного
+                    Регистр частного C
                     <div className={s.container}>
-                        <span style={{fontSize: "22px"}}>C <b style={{fontSize: "24px"}}>. </b></span>
+                        <span style={{fontSize: "22px"}}><b style={{fontSize: "24px"}}>. </b></span>
                         <table>
                             <thead>
                             <tr>
@@ -214,6 +205,29 @@ const DischargeGrid: React.FC = (observer(() => {
                         </table>
                     </div>
                 </div>
+                <div>
+                    C <sub>10</sub> = <input value={store._PP ? "Переполнение" : store.UI_C}/>
+                </div>
+
+                {/*<div className={s.d1}>*/}
+                {/*    <span>Счетчик:</span>*/}
+                {/*    <div className={s.container} style={{marginLeft: 8}}>*/}
+                {/*        <table>*/}
+                {/*            <thead>*/}
+                {/*            <tr><th>3</th> <th>2</th> <th>1</th> <th>0</th></tr>*/}
+                {/*            </thead>*/}
+                {/*            <tbody>*/}
+                {/*            <tr>*/}
+                {/*                {*/}
+                {/*                    store.binCH.map((item) => (*/}
+                {/*                        <td>{item}</td>*/}
+                {/*                    ))*/}
+                {/*                }*/}
+                {/*            </tr>*/}
+                {/*            </tbody>*/}
+                {/*        </table>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </div>
 

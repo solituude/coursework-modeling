@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import {xMBC} from "./types";
 
-class Store{
+class Model{
     _B: number = 0;
     _A: number = 0;
     _C: number = 0;
@@ -35,7 +34,7 @@ class Store{
     _buffA: number = 0;
     _buffB: number = 0;
     _buffC: number = 0;
-    _xPLU: boolean[] = new Array(7).fill(false);
+    _xPLU: boolean[] = new Array(2).fill(false);
 
     constructor() {
         makeAutoObservable(this);
@@ -45,26 +44,20 @@ class Store{
     // перевод чисел из десятичной системы в двоичную
     decimalToBinaryUI(): void {
         let fraction = this._A;
-        for (let i = 1; i < this.binAInProcess.length; i++) {
-            let bit = fraction % 2;
-            this.binAInProcess[this.binAInProcess.length - i] = bit;
+        for (let i = 1; i <= this.binAInProcess.length; i++) {
+            this.binAInProcess[this.binAInProcess.length - i] = fraction % 2;
             fraction = fraction >> 1;
         }
-        this.binAInProcess[0] = this.binA[0];
-
 
         fraction = this._B;
-        for (let i = 1; i < this.binBInProcess.length; i++) {
-            let bit = fraction % 2;
-            this.binBInProcess[this.binBInProcess.length - i] = bit;
+        for (let i = 1; i <= this.binBInProcess.length; i++) {
+            this.binBInProcess[this.binBInProcess.length - i] = fraction % 2;
             fraction = fraction >> 1;
         }
-        this.binBInProcess[0] = this.binB[0];
 
         fraction = this._C;
         for (let i = 1; i <= this.binCInProcess.length; i++) {
-            let bit = (fraction % 2);
-            this.binCInProcess[this.binCInProcess.length - i] = bit;
+            this.binCInProcess[this.binCInProcess.length - i] = fraction % 2;
             fraction = fraction >> 1;
         }
 
@@ -80,13 +73,14 @@ class Store{
         }
         switch (nameDecimal) {
             case "A":
+                result += arr[0] * power;
                 this._A = result;
                 break;
             case "B":
+                result += arr[0] * power * 2;
                 this._B = result;
                 break;
         }
-        console.log(result);
     }
 
     // перевод из двоичной в десятичную
@@ -134,6 +128,7 @@ class Store{
                 let rslX2: boolean = this.x2();
                 if (!rslX1 && rslX2) {
                     this._aTransition = 0;
+                    this.success = true;
                     this.run = false;
                 }
                 else if (rslX1) {
@@ -215,28 +210,27 @@ class Store{
     // ПЛУ
     PLU(): void {
         this._x[0] = this.run;
-        this._xPLU[2] = this._x[2]; // сохраняю х2
-        this._xPLU[3] = this._x[3]; // сохраняю х3
+        this._xPLU[0] = this._x[2]; // сохраняю х2
+        this._xPLU[1] = this._x[3]; // сохраняю х3
     }
 
     // КС Y
     csY(): void {
         let a: boolean[] = new Array(9).fill(false);
-
         a[this._aTransition] = true;
         this._y[1] = a[0] && this._x[0];
         this._y[2] = a[0] && this._x[0];
-        this._y[3] = (a[1] && !this._x[1] && !this._xPLU[2]) || (a[4] && !this._xPLU[3]);
+        this._y[3] = (a[1] && !this._x[1] && !this._xPLU[0]) || (a[4] && !this._xPLU[1]);
         this._y[4] = a[3] || a[5];
         this._y[5] = a[3];
         this._y[6] = a[3];
-        this._y[7] = (a[2] && this._xPLU[3]) || (a[4] && this._xPLU[3]);
+        this._y[7] = (a[2] && this._xPLU[1]) || (a[4] && this._xPLU[1]);
         this._y[8] = a[5];
         this._y[9] = a[5];
         this._y[10] = a[6] && this._x[4];
         this._y[11] = a[7] && this._x[5];
         this._y[12] = a[8] && this._x[6];
-        this._y[13] = (a[1] && this._x[1]) || (a[2] && !this._xPLU[3]);
+        this._y[13] = (a[1] && this._x[1]) || (a[2] && !this._xPLU[1]);
     }
 
     // Операционный автомат
@@ -290,9 +284,9 @@ class Store{
     csD(): void {
         let a: boolean[] = new Array(9).fill(false);
         a[this._aTransition] = true;
-        this._D[0] = (a[0] && this.run) || (a[2] && this._xPLU[3]) || a[3] || (a[6] && !this._x[4]);
-        this._D[1] = (a[1] && !this._x[1] && !this._xPLU[2]) || (a[2] && this._xPLU[3]) || a[4];
-        this._D[2] = (a[1] && !this._x[1] && !this._xPLU[2]) || (a[6] && this._x[4]) || a[7];
+        this._D[0] = (a[0] && this.run) || (a[2] && this._xPLU[1]) || a[3] || (a[6] && !this._x[4]);
+        this._D[1] = (a[1] && !this._x[1] && !this._xPLU[0]) || (a[2] && this._xPLU[1]) || a[4];
+        this._D[2] = (a[1] && !this._x[1] && !this._xPLU[0]) || (a[6] && this._x[4]) || a[7];
         this._D[3] = (a[0] && this.run) || a[5] || (a[6] && this._x[4]);
     }
 
@@ -359,17 +353,18 @@ class Store{
 
     y7(): number {
         // C:=C+A(14:0)
-        return (this._C + (this._A & 0x7fff)) & 0x1ffff;
+        return (this._C + (this._A & 0x7fff)) & 0x1ffff; // беру первые 17 бит во избежание ошибок
     }
 
     y8(): number{
         //B(15:0)=L1(B(15:0).-C(16))
-        let temp: number = (this._C >> 16) % 2;
-        let elderBitsB = this._B & 0x0000ffff;
-        elderBitsB <<= 1;
-        temp = (temp & 0x1) ^ 0x1;
-        elderBitsB = (this._B & 0xffff0000) | elderBitsB;
-        return elderBitsB | temp;
+        let temp: number = (this._C >> 16) % 2; // C(16)
+        temp = (temp & 0x1) ^ 0x1; // -C(16)
+        let bitsB = this._B & 0x0000ffff; // B(15:0)
+
+        bitsB <<= 1;
+        bitsB = (this._B & 0xffff0000) | bitsB; // L1(B(15:0).-C(16))
+        return bitsB | temp;
     }
 
     y9(): void {
@@ -431,11 +426,11 @@ class Store{
     }
 
     x6(): boolean{
-        // A(15)+B(16)=1
-        return (this.binAInProcess[0]) !== (this.binBInProcess[0]);
-        // return ((this._A >> 15) % 2) !== ((this._B >> 16) % 2);
+        // A(15)(+)B(16)=1
+        return ((this._A >> 15) % 2) !== ((this._B >> 16) % 2);
     }
 
+    // проверка окончания деления во взаимодействии УА ОА
     end(): boolean {
       return !(!this._D[0] && !this._D[1] && !this._D[2] && !this._D[3] && (this._Q[0] || this._Q[1] || this._Q[2] || this._Q[3]))
     }
@@ -484,7 +479,6 @@ class Store{
     chg(): void {
         this._buffA = this._A;
         this._buffB = this._B;
-        console.log(this._buffA.toString(2));
     }
 
     runStep() {
@@ -493,4 +487,4 @@ class Store{
 
 }
 
-export default new Store;
+export default new Model;

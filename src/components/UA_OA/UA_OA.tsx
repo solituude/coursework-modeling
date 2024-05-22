@@ -3,6 +3,7 @@ import {observer} from "mobx-react";
 import struct from '../../img/struct.drawio.png';
 import store from "../../store/store";
 import s from './uaoa.module.scss';
+import ProgramControls from "../ProgramControls/ProgramControls";
 
 const UA_OA: React.FC = (observer(() => {
     return(
@@ -172,6 +173,10 @@ const UA_OA: React.FC = (observer(() => {
                     <label  htmlFor="3">y12</label>
                     <input id="3" readOnly={true} type={"checkbox"} checked={store._y[12]}/>
                 </div>
+                <div>
+                    <label  htmlFor="3">y13</label>
+                    <input id="3" readOnly={true} type={"checkbox"} checked={store._y[13]}/>
+                </div>
             </div>
             <div className={s.xS}>
                 <div>
@@ -183,6 +188,7 @@ const UA_OA: React.FC = (observer(() => {
                     <input id="0"  readOnly={true} type={"checkbox"} checked={store._xPLU[3]}/>
                 </div>
             </div>
+            {/*<ProgramControls/>*/}
         </div>
 
     )
